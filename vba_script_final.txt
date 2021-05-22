@@ -1,0 +1,105 @@
+Sub Wall_Street():
+
+    ' apply to all sheets
+    For Each ws In Worksheets
+
+    ' declare variables
+    Dim total As Double
+    Dim change As Double
+    Dim start As Long
+    Dim i As Long
+    Dim j As Integer
+    Dim last_row As Long
+    Dim percentage_change As Double
+
+    ' format to Part I
+    ws.Range("I1").Value = "Ticker"
+    ws.Range("J1").Value = "Yearly Changed"
+    ws.Range("K1").Value = "Percentage Changed"
+    ws.Range("L1").Value = "Total Stock Volume"
+
+    ' format to Part II
+    ws.Range("P1").Value = "Ticker"
+    ws.Range("Q1").Value = "Value"
+    ws.Range("O2").Value = "Greatest % Increase"
+    ws.Range("O3").Value = "Greatest % Decrease"
+    ws.Range("O4").Value = "Greatest Total Volume"
+
+    ' set last row and initial values
+    last_row = ws.Cells(Rows.Count, "A").End(xlUp).Row
+    j = 0
+    total = 0
+    change = 0
+    start = 2
+
+    For i = 2 To last_row
+
+        ' locate values when "Ticker" changes
+        If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+        total = total + ws.Cells(i, 7).Value
+
+        If total = 0 Then
+        ws.Range("I" & 2 + j).Value = ws.Cells(i, 1).Value
+        ws.Range("J" & 2 + j).Value = 0
+        ws.Range("K" & 2 + j).Value = "%" & 0
+        ws.Range("L" & 2 + j).Value = 0
+
+        Else
+        If ws.Cells(start, 3) = 0 Then
+        For get_value = start To i
+        If ws.Cells(get_value, 3).Value <> 0 Then
+        start = get_value
+        Exit For
+        End If
+        Next get_value
+        End If
+            
+        ' calculate "Yearly Change" and "Percentage Change"
+        change = (ws.Cells(i, 6) - ws.Cells(start, 3))
+        percentage_change = Round((change / ws.Cells(start, 3) * 100), 2)
+        start = i + 1
+        ws.Range("I" & 2 + j).Value = ws.Cells(i, 1).Value
+        ws.Range("J" & 2 + j).Value = Round(change, 2)
+        ws.Range("K" & 2 + j).Value = "%" & percentage_change
+        ws.Range("L" & 2 + j).Value = total
+
+        ' set conditional to color positives in green, negatives in red
+        Select Case change
+        Case Is > 0
+        ws.Range("J" & 2 + j).Interior.ColorIndex = 4
+        Case Is < 0
+        ws.Range("J" & 2 + j).Interior.ColorIndex = 3
+        Case Else
+        ws.Range("J" & 2 + j).Interior.ColorIndex = 0
+        End Select
+        End If
+
+        ' reset value and calculate "Total Stock Volume"
+        total = 0
+        change = 0
+        j = j + 1
+        Else
+        total = total + ws.Cells(i, 7).Value
+        End If
+
+    Next i
+
+    ' list the values of Part II by extracting values from Part I
+    ws.Range("Q2") = "%" & WorksheetFunction.Max(ws.Range("K2:K" & last_row)) * 100
+    ws.Range("Q3") = "%" & WorksheetFunction.Min(ws.Range("K2:K" & last_row)) * 100
+    ws.Range("Q4") = WorksheetFunction.Max(ws.Range("L2:L" & last_row))
+
+    greatest_increase = WorksheetFunction.Match(WorksheetFunction.Max(ws.Range("K2:K" & last_row)), ws.Range("K2:K" & last_row), 0)
+    greatest_decrease = WorksheetFunction.Match(WorksheetFunction.Min(ws.Range("K2:K" & last_row)), ws.Range("K2:K" & last_row), 0)
+    greatest_total = WorksheetFunction.Match(WorksheetFunction.Max(ws.Range("L2:L" & last_row)), ws.Range("L2:L" & last_row), 0)
+
+    ws.Range("P2") = ws.Cells(greatest_increase + 1, 9)
+    ws.Range("P3") = ws.Cells(greatest_decrease + 1, 9)
+    ws.Range("P4") = ws.Cells(greatest_total + 1, 9)
+    
+    ' autofit format
+    ws.Columns("I:P").AutoFit
+    
+    Next ws
+
+End Sub
