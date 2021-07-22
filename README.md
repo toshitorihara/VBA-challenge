@@ -9,10 +9,10 @@ This project utilizes VBA scripting to analyze real stock market data from 2014-
     - The percent change from opening price at the beginning of a given year to the closing price at the end of that year.
     - The total stock volume of the stock.
 *	Create conditional formatting highlighting positive change in green and negative change in red.
-*	Return the stock with the "Greatest % increase", "Greatest % decrease", and "Greatest total volume". 
-*	Make the adjustments to allow it to run on every worksheet (every year), just by running the VBA script once.
+*	(Bonus) Return the stock with the "Greatest % increase", "Greatest % decrease", and "Greatest total volume". 
+*	(Bonus) Make the adjustments to allow it to run on every worksheet (every year), just by running the VBA script once.
  
 ## Submission
 Create a sharable link from Github (with README.md file) and submit to BCS including the following.
-* A set of [**screen shots**](Images) for each year of the results on the [**Multi Year Stock Data**](Resources/Multiple_year_stock_data.xlsx).
+* A set of [**Screen Shots**](Images) for each year of the results on the [**Multi Year Stock Data**](Resources/Multiple_year_stock_data.xlsx).
 * [**VBA Scripts**](VBA%20Scripts_final.txt) as a separate text file
