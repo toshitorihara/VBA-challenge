@@ -15,4 +15,4 @@ This project utilizes VBA scripting to analyze real stock market data from 2014-
 ## Submission
 Create a sharable link from Github (with README.md file) and submit to BCS including the following.
 * A set of [**screen shots**](Images) for each year of the results on the [**Multi Year Stock Data**](Resources/Multiple_year_stock_data.xlsx).
-* [**VBA Scripts**](VBAscripts_final.txt) as a separate text file
+* [**VBA Scripts**](VBA%20Scripts_final.txt) as a separate text file
